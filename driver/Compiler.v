@@ -75,6 +75,7 @@ Require Import Compopts.
 
 (** Pretty-printers (defined in Caml). *)
 Parameter print_Clight: Clight.program -> unit.
+Parameter print_Csharpminor: Csharpminor.program -> unit.
 Parameter print_Cminor: Cminor.program -> unit.
 Parameter print_RTL: Z -> RTL.program -> unit.
 Parameter print_LTL: LTL.program -> unit.
@@ -158,6 +159,7 @@ Definition transf_clight_program (p: Clight.program) : res Asm.program :=
    @@ print print_Clight
   @@@ time "Simplification of locals" SimplLocals.transf_program
   @@@ time "C#minor generation" Cshmgen.transl_program
+   @@ print print_Csharpminor
   @@@ time "Cminor generation" Cminorgen.transl_program
   @@@ transf_cminor_program.
 

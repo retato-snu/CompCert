@@ -110,7 +110,7 @@ LEXERS=cparser/Lexer.mll lib/Tokenize.mll \
 LIBS=str.cmxa unix.cmxa $(MENHIR_LIBS)
 LIBS_BYTE=$(patsubst %.cmxa,%.cma,$(patsubst %.cmx,%.cmo,$(LIBS)))
 
-EXECUTABLES=ccomp ccomp.byte cchecklink cchecklink.byte clightgen clightgen.byte
+EXECUTABLES=ccomp ccomp.byte cchecklink cchecklink.byte clightgen clightgen.byte c2json c2json.byte
 GENERATED=$(PARSERS:.mly=.mli) $(PARSERS:.mly=.ml) $(LEXERS:.mll=.ml) cparser/pre_parser_messages.ml
 
 # Beginning of part that assumes .depend.extr already exists
@@ -146,6 +146,22 @@ clightgen: clightgen.byte
 endif
 
 clightgen.byte: $(CLIGHTGEN_OBJS:.cmx=.cmo)
+	@echo "Linking $@"
+	@$(OCAMLC) -o $@ $(LIBS_BYTE) $+
+
+C2JSON_OBJS:=$(shell $(MODORDER) export/CsharpminorJSONDriver.cmx)
+
+ifeq ($(OCAML_NATIVE_COMP),true)
+c2json: $(C2JSON_OBJS)
+	@echo "Linking $@"
+	@$(OCAMLOPT) -o $@ $(LIBS) $(LINK_OPT) $+
+else
+c2json: c2json.byte
+	@echo "Copying to $@"
+	@$(COPY) $+ $@
+endif
+
+c2json.byte: $(C2JSON_OBJS:.cmx=.cmo)
 	@echo "Linking $@"
 	@$(OCAMLC) -o $@ $(LIBS_BYTE) $+
 

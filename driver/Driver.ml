@@ -46,6 +46,7 @@ let compile_c_file sourcename ifile ofile =
   set_dest Cprint.destination option_dparse ".parsed.c";
   set_dest PrintCsyntax.destination option_dcmedium ".compcert.c";
   set_dest PrintClight.destination option_dclight ".light.c";
+  set_dest PrintCsharpminorJSON.destination option_dcsharpminor_json ".csm.json";
   set_dest PrintCminor.destination option_dcminor ".cm";
   set_dest PrintRTL.destination option_drtl ".rtl";
   set_dest Regalloc.destination_alloctrace option_dalloctrace ".alloctrace";
@@ -219,6 +220,7 @@ Code generation options: (use -fno-<opt> to turn off -f<opt>)
   -dparse        Save C file after parsing and elaboration in <file>.parsed.c
   -dc            Save generated Compcert C in <file>.compcert.c
   -dclight       Save generated Clight in <file>.light.c
+  -dcsharpminor-json Save generated Csharpminor AST as JSON in <file>.csm.json
   -dcminor       Save generated Cminor in <file>.cm
   -drtl          Save RTL at various optimization points in <file>.rtl.<n>
   -dltl          Save LTL after register allocation in <file>.ltl
@@ -347,6 +349,7 @@ let cmdline_actions =
   Exact "-dparse", Set option_dparse;
   Exact "-dc", Set option_dcmedium;
   Exact "-dclight", Set option_dclight;
+  Exact "-dcsharpminor-json", Set option_dcsharpminor_json;
   Exact "-dcminor", Set option_dcminor;
   Exact "-drtl", Set option_drtl;
   Exact "-dltl", Set option_dltl;
@@ -358,6 +361,7 @@ let cmdline_actions =
     option_dparse := true;
     option_dcmedium := true;
     option_dclight := true;
+    option_dcsharpminor_json := true;
     option_dcminor := true;
     option_drtl := true;
     option_dltl := true;

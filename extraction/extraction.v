@@ -105,6 +105,7 @@ Extract Constant Compopts.debug =>
 
 (* Compiler *)
 Extract Constant Compiler.print_Clight => "PrintClight.print_if".
+Extract Constant Compiler.print_Csharpminor => "PrintCsharpminorJSON.print_if".
 Extract Constant Compiler.print_Cminor => "PrintCminor.print_if".
 Extract Constant Compiler.print_RTL => "PrintRTL.print_if".
 Extract Constant Compiler.print_LTL => "PrintLTL.print_if".
