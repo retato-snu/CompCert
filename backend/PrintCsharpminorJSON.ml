@@ -258,7 +258,7 @@ let print_function p id f =
         | [] -> ()
         | (v, sz) :: vs ->
             if not first then fprintf p ", ";
-            fprintf p {|{"id": %a, "sz": %s}|} print_ident v (Z.to_string sz);
+            fprintf p {|{"id": %a, "sz": "%s"}|} print_ident v (Z.to_string sz);
             pr false vs
       in pr true vars) f.fn_vars
     (fun p temps ->
@@ -278,7 +278,7 @@ let print_init_data p = function
   | Init_int64 i -> fprintf p {|{"type": "int64", "val": %Ld}|} (camlint64_of_coqint i)
   | Init_float32 f -> fprintf p {|{"type": "float32", "val": %.15F}|} (camlfloat_of_coqfloat f)
   | Init_float64 f -> fprintf p {|{"type": "float64", "val": %.15F}|} (camlfloat_of_coqfloat f)
-  | Init_space i -> fprintf p {|{"type": "space", "val": %s}|} (Z.to_string i)
+  | Init_space i -> fprintf p {|{"type": "space", "val": "%s"}|} (Z.to_string i)
   | Init_addrof(id, off) -> fprintf p {|{"type": "addrof", "id": %a, "off": %ld}|} print_ident id (camlint_of_coqint off)
 
 let rec print_init_data_list p = function

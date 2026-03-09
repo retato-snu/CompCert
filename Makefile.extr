@@ -149,6 +149,22 @@ clightgen.byte: $(CLIGHTGEN_OBJS:.cmx=.cmo)
 	@echo "Linking $@"
 	@$(OCAMLC) -o $@ $(LIBS_BYTE) $+
 
+C2JSON_OBJS:=$(shell $(MODORDER) export/C2JsonDriver.cmx)
+
+ifeq ($(OCAML_NATIVE_COMP),true)
+c2json: $(C2JSON_OBJS)
+	@echo "Linking $@"
+	@$(OCAMLOPT) -o $@ $(LIBS) $(LINK_OPT) $+
+else
+c2json: c2json.byte
+	@echo "Copying to $@"
+	@$(COPY) $+ $@
+endif
+
+c2json.byte: $(C2JSON_OBJS:.cmx=.cmo)
+	@echo "Linking $@"
+	@$(OCAMLC) -o $@ $(LIBS_BYTE) $+
+
 include .depend.extr
 
 endif
